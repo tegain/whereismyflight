@@ -3,7 +3,7 @@
     <div class="app-Search__tab">
       <div class="app-Search__label">Recherche par vol</div>
 
-      <form action="#" class="app-Search__form" @submit.prevent="">
+      <form action="#" class="app-Search__form app-Search__form--flight" @submit.prevent="submitForm()">
         <div class="app-Search__row">
           <label for="app-Search__company">Compagnie aérienne</label>
           <input id="app-Search__company" type="text" placeholder="ex. : Air France">
@@ -26,7 +26,7 @@
     <div class="app-Search__tab">
       <div class="app-Search__label">Recherche par aéroport</div>
 
-      <form action="#" class="app-Search__form" @submit.prevent="">
+      <form action="#" class="app-Search__form app-Search__form--airport" @submit.prevent="submitForm()">
         <div class="app-Search__row">
           <label for="app-Search__airportDeparture">Aéroport de départ</label>
           <input id="app-Search__airportDeparture" type="text" placeholder="ex. : CDG ou Paris">
@@ -47,3 +47,25 @@
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    data () {
+      return {
+        activeTab: 1
+      }
+    },
+
+    methods: {
+      submitForm (e) {
+        console.log(e)
+      }
+    }
+  }
+</script>
+
+<style lang="scss">
+  .app-Search {
+
+  }
+</style>

@@ -1,10 +1,15 @@
 <template>
-  <div id="app">
-    <layout-header></layout-header>
-    <main>
-      <img src="./assets/logo.png" alt="Vue.js PWA">
-      <router-view></router-view>
-    </main>
+  <div id="app" class="app">
+    <layout-navigation></layout-navigation>
+
+    <div class="app-Container">
+      <layout-header></layout-header>
+
+      <main>
+        <img src="./assets/logo.png" alt="Vue.js PWA">
+        <router-view></router-view>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -20,12 +25,17 @@ export default {
     background: #242138;
   }
 
-  #app {
+  .app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    // color: #2c3e50;
     color: #fff;
+  }
+
+  .app-Container {
+    position: relative;
+    z-index: 1;
+    background: #242138;
   }
 
   main {
