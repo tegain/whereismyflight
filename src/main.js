@@ -3,6 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Components from './components/'
+
+Components.forEach((component) => {
+  Vue.component(component.name, component.template)
+})
 
 Vue.config.productionTip = false
 
