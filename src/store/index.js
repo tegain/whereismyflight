@@ -18,8 +18,6 @@ const actions = {
       let flightSearch = JSON.parse(data)
 
       if (flightSearch !== null) {
-        resolve(data)
-
         const flightInfos = {
           type: flightSearch.type,
           company: flightSearch.company,
@@ -27,7 +25,8 @@ const actions = {
           date: flightSearch.date
         }
 
-        context.commit('SEARCH_FLIGHT', flightInfos)
+        resolve(flightInfos)
+        context.commit('SEARCH_BY_FLIGHT', flightInfos)
       } else {
         reject(new Error('Searching requires data'))
       }
@@ -39,8 +38,6 @@ const actions = {
       let airportSearch = JSON.parse(data)
 
       if (airportSearch !== null) {
-        resolve(data)
-
         const airportInfos = {
           type: airportSearch.type,
           departure: airportSearch.departure,
@@ -48,7 +45,8 @@ const actions = {
           date: airportSearch.date
         }
 
-        context.commit('SEARCH_AIRPORT', airportInfos)
+        resolve(airportInfos)
+        context.commit('SEARCH_BY_AIRPORT', airportInfos)
       } else {
         reject(new Error('Searching requires data'))
       }
@@ -57,14 +55,12 @@ const actions = {
 }
 
 const mutations = {
-  SEARCH_FLIGHT (state, data) {
-    let searchFlightData = JSON.parse(data)
-    state.appSearch = searchFlightData
+  SEARCH_BY_FLIGHT (state, searchData) {
+    state.appSearch = searchData
   },
 
-  SEARCH_AIRPORT (state, data) {
-    let searchAirportData = JSON.parse(data)
-    state.appSearch = searchAirportData
+  SEARCH_BY_AIRPORT (state, searchData) {
+    state.appSearch = searchData
   }
 }
 
