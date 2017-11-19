@@ -32,14 +32,21 @@ export default {
     height: 100%;
     // background: #242138;
     background: #0f0c29;
-    // background: radial-gradient(ellipse farthest-corner at 45px 45px, #24243e 0%, #272a52 50%, #0f0c29 100%);
   }
 
   .app {
+    height: 100vh;
+    overflow: hidden;
+    overflow-y: auto;
     font-family: 'Merriweather', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #fff;
+
+    &-Content {
+      position: relative;
+      z-index: 1;
+    }
   }
 
   .app-Container {

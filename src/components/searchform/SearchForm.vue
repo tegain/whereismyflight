@@ -46,13 +46,13 @@
       <form action="#" class="app-Search__form app-Search__form--airport" data-type="airport" @submit.prevent="submitForm">
         <div class="app-Search__row">
           <label for="app-Search__airportDeparture">Aéroport de départ</label>
-          <input id="app-Search__airportDeparture" type="text" placeholder="ex. : CDG ou Paris" v-model="airport.departure" @blur="inputCompleteFill">
+          <input id="app-Search__airportDeparture" type="text" placeholder="ex. : CDG ou Paris" v-model="airport.departure" @blur="inputCompleteFill" @input="getAirportsList">
           <span>{{ airport.departure }}</span>
         </div>
 
         <div class="app-Search__row">
           <label for="app-Search__airportArrival">Aéroport d'arrivée</label>
-          <input id="app-Search__airportArrival" type="text" placeholder="ex. : LAX ou Los Angeles" v-model="airport.destination" @blur="inputCompleteFill">
+          <input id="app-Search__airportArrival" type="text" placeholder="ex. : LAX ou Los Angeles" v-model="airport.destination" @blur="inputCompleteFill" @input="getAirportsList">
           <span>{{ airport.destination }}</span>
         </div>
 
@@ -69,9 +69,6 @@
     </div>
     </transition>
 
-    <div v-if="searchInfos">
-      {{ searchInfos }}
-    </div>
   </div>
 </template>
 
@@ -85,20 +82,18 @@
         isMobile: false,
         flight: {
           company: '',
-          number: '',
-          date: ''
+          number: ''
         },
         airport: {
           departure: '',
-          destination: '',
-          date: ''
+          destination: ''
         }
       }
     },
 
     computed: {
       ...mapGetters([
-        'searchInfos'
+        'airportsList'
       ])
     },
 
@@ -107,7 +102,23 @@
         this.activeTab = parseInt(tab)
       },
 
-      inputCompleteFill: function (e) {
+      getAirportsList: function (e) {
+        let searchValue = JSON.stringify(e.target.value)
+
+        if (e.target.value.length > 2) {
+          this.$store.dispatch('getAirportsList', { search: searchValue })
+            .then((success) => {
+              console.log(success)
+            })
+            .catch((error) => {
+              console.error(error)
+            })
+        } else {
+          console.log(e.target.value.length)
+        }
+      },
+
+      inputCompleteFill: (e) => {
         let $input = e.target
 
         if ($input.value !== '') {
@@ -122,8 +133,7 @@
           let data = {
             type: searchType,
             company: this.flight.company,
-            number: this.flight.number,
-            date: this.flight.date
+            number: this.flight.number
           }
 
           this.searchByFlight(data)
@@ -131,8 +141,7 @@
           let data = {
             type: searchType,
             departure: this.airport.departure,
-            destination: this.airport.destination,
-            date: this.airport.date
+            destination: this.airport.destination
           }
 
           this.searchByAirport(data)
@@ -144,7 +153,12 @@
 
         this.$store.dispatch('SearchByFlight', flightData)
           .then((response) => {
-            console.log(response)
+            let routeParams = {
+              company: response.company.replace(/\s/g, '-'),
+              number: parseInt(response.number)
+            }
+
+            this.$router.push({ name: 'Detail', params: { a: routeParams.company, b: routeParams.number } })
           })
           .catch((error) => {
             console.error(error)
@@ -156,7 +170,12 @@
 
         this.$store.dispatch('SearchByAirport', airportData)
           .then((response) => {
-            console.log(response)
+            let routeParams = {
+              departure: response.departure.replace(/\s/g, '-'),
+              destination: response.destination.replace(/\s/g, '-')
+            }
+
+            this.$router.push({ name: 'Results', params: { a: routeParams.departure, b: routeParams.destination } })
           })
           .catch((error) => {
             console.error(error)
@@ -275,7 +294,7 @@
       }
 
       @media screen and (min-width: 540px) {
-        width: 33%;
+        width: 50%;
 
         &:last-child {
           margin-top: 0;
@@ -283,7 +302,7 @@
       }
 
       @media screen and (min-width: 768px) {
-        width: 25%;
+        width: 33%;
       }
 
       @media screen and (max-width: 767px) {
@@ -382,7 +401,7 @@
       font-weight: 700;
       font-size: 1rem;
       letter-spacing: .1rem;
-      box-shadow: 0 1rem 4rem -.5rem rgba(#000, .7);
+      box-shadow: 0 1rem 1rem -.25rem rgba(#ff00cc, .15);
       transition-duration: .4s;
 
       @media screen and (min-width: 540px) {
@@ -392,6 +411,7 @@
       // Background gradient transition
       &:hover {
         background-position: 95% 0;
+        box-shadow: 0 1rem 1.25rem -.25rem rgba(#ff00cc, .25);
       }
     }
   }

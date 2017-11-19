@@ -1,10 +1,48 @@
+import Axios from 'axios'
+
 const APISettings = {
+  lh: {
+    key: '2cxxadzvyfqbgmtm385abrkq',
+    secret: 'f7p9N6tzff',
+    authUrl: 'https://api.lufthansa.com/v1/oauth/token'
+  },
   fa: {
-    key: '676e48aa9c2ea320d98a5063806f4caa12b94eed',
-    login: 'tegain'
+    baseUrl: '//tegain:676e48aa9c2ea320d98a5063806f4caa12b94eed@flightxml.flightaware.com/json/FlightXML3/'
   }
 }
 
 export default {
+  getLHToken () {
+    // let authUrl = `${APISettings.lh.authUrl}?client_id=${APISettings.lh.key}&client_secret=${APISettings.lh.secret}`
+    return Axios({
+      url: APISettings.lh.authUrl,
+      method: 'POST',
+      data: {
+        'client_id': APISettings.lh.key,
+        'client_secret': APISettings.lh.secret,
+        'grant_type': 'client_credentials'
+      },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+  },
 
+  getAirportsSuggestions (terms) {
+    let fetchUrl = `${APISettings.ic.baseUrl}/autocomplete?api_key=${APISettings.ic.key}&query=${terms}`
+    // console.log(fetchUrl)
+    return Axios.get(fetchUrl)
+  },
+
+  getAirportFullName (code) {
+    let fetchUrl = `${APISettings.fa.baseUrl}/AirportInfo?airport_code=${code}`
+
+    return Axios.get(fetchUrl)
+  },
+
+  searchByAirport (departure, destination) {
+    let fetchUrl = `${APISettings.fa.baseUrl}FindFlight?origin=${departure}&destination=${destination}`
+
+    return Axios.get(fetchUrl)
+  }
 }
