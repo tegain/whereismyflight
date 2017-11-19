@@ -51,12 +51,12 @@ export default {
 
   .app-Container {
     position: relative;
+    height: 100%;
     z-index: 1;
   }
 
   main {
     text-align: center;
-    margin-top: 40px;
   }
 
   header {

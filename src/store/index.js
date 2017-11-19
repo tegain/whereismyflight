@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 const state = {
   appSettings: {
+    apiToken: sessionStorage.getItem('APP_TOKEN') || null,
     lang: 'fr', // 'en', 'fr'...
     savedSearch: null, // object with saved search detail
     isMobile: false // boolean
@@ -67,9 +68,10 @@ const actions = {
   getLHToken (context) {
     return new Promise((resolve, reject) => {
       API.getLHToken().then((response) => {
-        resolve('LH OK:', response)
+        resolve('API Access Token -- OK')
+        context.commit('SET_APP_TOKEN', response.data.access_token)
       }).catch((error) => {
-        reject(new Error('LH error: ', error))
+        reject(new Error('Can\'t get API Access Token: ', error))
       })
     })
   },
@@ -91,6 +93,10 @@ const actions = {
 }
 
 const mutations = {
+  SET_APP_TOKEN (state, data) {
+    sessionStorage.setItem('APP_TOKEN', JSON.stringify(data))
+  },
+
   SET_AIRPORTS_LIST (state, airports) {
     state.airportsList = airports
   },
@@ -105,6 +111,7 @@ const mutations = {
 }
 
 const getters = {
+  getApiToken: (state) => state.appSettings.apiToken,
   searchInfos: (state) => state.appSearch,
   airportsList: (state) => state.airportsList
 }

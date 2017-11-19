@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import 'url-search-params-polyfill'
 
 const APISettings = {
   lh: {
@@ -13,19 +14,12 @@ const APISettings = {
 
 export default {
   getLHToken () {
-    // let authUrl = `${APISettings.lh.authUrl}?client_id=${APISettings.lh.key}&client_secret=${APISettings.lh.secret}`
-    return Axios({
-      url: APISettings.lh.authUrl,
-      method: 'POST',
-      data: {
-        'client_id': APISettings.lh.key,
-        'client_secret': APISettings.lh.secret,
-        'grant_type': 'client_credentials'
-      },
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    })
+    let params = new URLSearchParams()
+    params.append('client_id', APISettings.lh.key)
+    params.append('client_secret', APISettings.lh.secret)
+    params.append('grant_type', 'client_credentials')
+
+    return Axios.post(APISettings.lh.authUrl, params)
   },
 
   getAirportsSuggestions (terms) {
