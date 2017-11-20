@@ -5,6 +5,7 @@ const APISettings = {
   lh: {
     key: '2cxxadzvyfqbgmtm385abrkq',
     secret: 'f7p9N6tzff',
+    baseUrl: 'https://api.lufthansa.com/v1',
     authUrl: 'https://api.lufthansa.com/v1/oauth/token'
   },
   fa: {
@@ -34,9 +35,14 @@ export default {
     return Axios.get(fetchUrl)
   },
 
-  searchByAirport (departure, destination) {
-    let fetchUrl = `${APISettings.fa.baseUrl}FindFlight?origin=${departure}&destination=${destination}`
+  searchByAirport (departure, destination, date, token) {
+    let fetchUrl = `${APISettings.lh.baseUrl}/operations/flightstatus/route/${departure}/${destination}/${date}`
+    // let fetchUrl = `${APISettings.lh.baseUrl}/operations/flightstatus/route/FRA/CDG/2017-11-22`
+    let params = {
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
 
-    return Axios.get(fetchUrl)
+    return Axios.get(fetchUrl, { headers: params })
   }
 }

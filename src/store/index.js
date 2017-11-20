@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const state = {
   appSettings: {
-    apiToken: sessionStorage.getItem('APP_TOKEN') || null,
+    apiToken: JSON.parse(sessionStorage.getItem('APP_TOKEN')) || null,
     lang: 'fr', // 'en', 'fr'...
     savedSearch: null, // object with saved search detail
     isMobile: false // boolean
@@ -41,6 +41,8 @@ const actions = {
   },
 
   SearchByAirport (context, data) {
+    let APIToken = context.state.appSettings.apiToken
+
     return new Promise((resolve, reject) => {
       let airportSearch = JSON.parse(data)
 
@@ -48,16 +50,19 @@ const actions = {
         const airportInfos = {
           type: airportSearch.type,
           departure: airportSearch.departure,
-          destination: airportSearch.destination
+          destination: airportSearch.destination,
+          date: airportSearch.date
         }
 
-        API.searchByAirport(airportInfos.departure, airportInfos.destination)
+        API.searchByAirport(airportInfos.departure, airportInfos.destination, airportInfos.date, APIToken)
           .then((response) => {
-            resolve(response)
+            let routesList = response.data.FlightStatusResource.Flights
+            airportInfos.datas = routesList
+            resolve(routesList)
             context.commit('SEARCH_BY_AIRPORT', airportInfos)
           })
           .catch((error) => {
-            reject(new Error('Problem with API:', error))
+            reject(new Error(`Problem with API: ${error}`))
           })
       } else {
         reject(new Error('Searching requires data'))

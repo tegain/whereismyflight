@@ -46,13 +46,13 @@
       <form action="#" class="app-Search__form app-Search__form--airport" data-type="airport" @submit.prevent="submitForm">
         <div class="app-Search__row">
           <label for="app-Search__airportDeparture">Aéroport de départ</label>
-          <input id="app-Search__airportDeparture" type="text" placeholder="ex. : CDG ou Paris" v-model="airport.departure" @blur="inputCompleteFill" @input="getAirportsList">
+          <input id="app-Search__airportDeparture" type="text" placeholder="ex. : CDG ou Paris" v-model="airport.departure" @blur="inputCompleteFill">
           <span>{{ airport.departure }}</span>
         </div>
 
         <div class="app-Search__row">
           <label for="app-Search__airportArrival">Aéroport d'arrivée</label>
-          <input id="app-Search__airportArrival" type="text" placeholder="ex. : LAX ou Los Angeles" v-model="airport.destination" @blur="inputCompleteFill" @input="getAirportsList">
+          <input id="app-Search__airportArrival" type="text" placeholder="ex. : LAX ou Los Angeles" v-model="airport.destination" @blur="inputCompleteFill">
           <span>{{ airport.destination }}</span>
         </div>
 
@@ -133,7 +133,8 @@
           let data = {
             type: searchType,
             company: this.flight.company,
-            number: this.flight.number
+            number: this.flight.number,
+            date: this.flight.date
           }
 
           this.searchByFlight(data)
@@ -141,7 +142,8 @@
           let data = {
             type: searchType,
             departure: this.airport.departure,
-            destination: this.airport.destination
+            destination: this.airport.destination,
+            date: this.airport.date
           }
 
           this.searchByAirport(data)
@@ -170,9 +172,11 @@
 
         this.$store.dispatch('SearchByAirport', airportData)
           .then((response) => {
+            console.log(response)
             let routeParams = {
-              departure: response.departure.replace(/\s/g, '-'),
-              destination: response.destination.replace(/\s/g, '-')
+              departure: response.Flight[0].Departure.AirportCode,
+              destination: response.Flight[0].Arrival.AirportCode,
+              date: airportData.date
             }
 
             this.$router.push({ name: 'Results', params: { a: routeParams.departure, b: routeParams.destination } })
