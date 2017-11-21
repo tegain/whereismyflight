@@ -17,7 +17,7 @@ const state = {
     {'name': 'Le Touquet Paris Plage', 'city': 'Le Tourquet', 'country': 'France', 'iata': 'LTQ'},
     {'name': 'Orly', 'city': 'Paris', 'country': 'France', 'iata': 'ORY'}
   ],
-  appSearch: null
+  appSearch: JSON.parse(localStorage.getItem('AIRPORT_SEARCH')) || null
 }
 
 const actions = {
@@ -112,6 +112,7 @@ const mutations = {
 
   SEARCH_BY_AIRPORT (state, searchData) {
     state.appSearch = searchData
+    localStorage.setItem('AIRPORT_SEARCH', JSON.stringify(searchData))
   }
 }
 

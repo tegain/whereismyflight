@@ -16,13 +16,13 @@
       <div class="app-Search__label" v-if="isMobile">Recherche par vol</div>
 
       <form action="#" class="app-Search__form app-Search__form--flight" data-type="flight" @submit.prevent="submitForm">
-        <div class="app-Search__row app-Search__row">
+        <div class="app-Search__row">
           <label for="app-Search__company">Compagnie aérienne</label>
           <input id="app-Search__company" type="text" placeholder="ex. : Air France" v-model="flight.company" @blur="inputCompleteFill">
           <span>{{ flight.company }}</span>
         </div>
 
-        <div class="app-Search__row app-Search__row">
+        <div class="app-Search__row">
           <label for="app-Search__number">N° du vol</label>
           <input id="app-Search__number" type="number" placeholder="ex. : 450" v-model="flight.number" @blur="inputCompleteFill">
           <span>{{ flight.number }}</span>
