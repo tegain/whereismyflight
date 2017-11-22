@@ -4,7 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import VueMoment from 'vue-moment'
 import Components from './components/'
+
+Vue.use(VueMoment)
 
 Components.forEach((component) => {
   Vue.component(component.name, component.template)

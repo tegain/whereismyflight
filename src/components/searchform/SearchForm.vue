@@ -58,7 +58,8 @@
 
         <div class="app-Search__row">
           <label for="app-Search__airportDate">Date</label>
-          <input id="app-Search__airportDate" :type="isMobile ? 'date': 'text'" placeholder="jj/mm/yyyy" v-model="airport.date" @blur="inputCompleteFill">
+          <input id="app-Search__airportDate" :type="isMobile ? 'date': 'text'" placeholder="yyyy/mm/dd" v-model="airport.date" @blur="inputCompleteFill">
+          <datepicker></datepicker>
           <span>{{ airport.date }}</span>
         </div>
 
@@ -68,7 +69,6 @@
       </form>
     </div>
     </transition>
-
   </div>
 </template>
 
@@ -78,15 +78,18 @@
   export default {
     data () {
       return {
-        activeTab: 1,
+        activeTab: 2,
         isMobile: false,
+        defaultDate: '2017-11-22',
         flight: {
           company: '',
-          number: ''
+          number: '',
+          date: ''
         },
         airport: {
           departure: '',
-          destination: ''
+          destination: '',
+          date: ''
         }
       }
     },

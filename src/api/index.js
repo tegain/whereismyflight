@@ -37,7 +37,6 @@ export default {
 
   searchByAirport (departure, destination, date, token) {
     let fetchUrl = `${APISettings.lh.baseUrl}/operations/flightstatus/route/${departure}/${destination}/${date}`
-    // let fetchUrl = `${APISettings.lh.baseUrl}/operations/flightstatus/route/FRA/CDG/2017-11-22`
     let params = {
       'Accept': 'application/json',
       'Authorization': `Bearer ${token}`
