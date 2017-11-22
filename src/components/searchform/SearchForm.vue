@@ -59,8 +59,8 @@
         <div class="app-Search__row">
           <label for="app-Search__airportDate">Date</label>
           <input id="app-Search__airportDate" :type="isMobile ? 'date': 'text'" placeholder="yyyy/mm/dd" v-model="airport.date" @blur="inputCompleteFill">
-          <datepicker></datepicker>
-          <span>{{ airport.date }}</span>
+          <input type="hidden" :value="airport.date">
+          <datepicker :date="airport.date"></datepicker>
         </div>
 
         <div class="app-Search__row">
