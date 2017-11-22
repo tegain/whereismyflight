@@ -7,7 +7,7 @@
       </button>
       <button class="app-Search__tab"
               :class="{ 'app-Search__tab--active': activeTab === 2 }"
-              @click.prevent="switchTab(2)">Recherche <em>par aéroport</em>
+              @click.prevent="switchTab(2)">Recherche <em>par route</em>
       </button>
     </div>
 

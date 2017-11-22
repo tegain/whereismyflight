@@ -28,7 +28,7 @@ export default new Router({
     },
 
     {
-      path: '/detail/:a/:b/',
+      path: '/detail/:flight',
       name: 'Detail',
       component: FlightDetail
     }

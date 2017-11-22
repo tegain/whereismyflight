@@ -1,5 +1,5 @@
 <template>
-  <div class="app-Card">
+  <router-link :to="{ name: 'Detail', params: { flight: flight.Departure.ScheduledTimeLocal.DateTime } }" tag="div" class="app-Card">
     <div class="app-Card__schedule">
       <span class="app-Card__schedule--dep">{{ flight.Departure.ScheduledTimeLocal.DateTime }}</span>
       <span class="app-Card__schedule--dest">{{ flight.Arrival.ScheduledTimeLocal.DateTime }}</span>
@@ -21,7 +21,7 @@
       <span class="app-Card__flight--number">{{ flight.MarketingCarrier.FlightNumber }}</span>
       <span class="app-Card__flight--aircraft">{{ flight.Equipment.AircraftCode }}</span>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -36,5 +36,18 @@
 </script>
 
 <style lang="scss">
+  .app-Card {
+    background: rgba(#fff, .1);
+    margin: 0 .5rem .5rem;
+    padding: 1rem;
+    border-radius: .5rem;
+    text-align: left;
 
+    &__schedule,
+    &__route {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+    }
+  }
 </style>
