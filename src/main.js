@@ -7,7 +7,11 @@ import store from './store'
 import VueMoment from 'vue-moment'
 import Components from './components/'
 
-Vue.use(VueMoment)
+const moment = require('moment')
+require('moment/locale/fr')
+Vue.use(VueMoment, {
+  moment
+})
 
 Components.forEach((component) => {
   Vue.component(component.name, component.template)

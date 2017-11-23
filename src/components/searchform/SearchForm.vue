@@ -58,9 +58,8 @@
 
         <div class="app-Search__row">
           <label for="app-Search__airportDate">Date</label>
-          <input id="app-Search__airportDate" :type="isMobile ? 'date': 'text'" placeholder="yyyy/mm/dd" v-model="airport.date" @blur="inputCompleteFill">
-          <input type="hidden" :value="airport.date">
-          <datepicker :date="airport.date"></datepicker>
+          <!--<input id="app-Search__airportDate" :type="isMobile ? 'date': 'text'" placeholder="yyyy/mm/dd" v-model="airport.date" @blur="inputCompleteFill">-->
+          <datepicker id="app-Search__airportDate" tab="airport" :mobile="isMobile" :type="isMobile ? 'date': 'text'" @updateDatepicker="updateDate"></datepicker>
         </div>
 
         <div class="app-Search__row">
@@ -80,7 +79,6 @@
       return {
         activeTab: 2,
         isMobile: false,
-        defaultDate: '2017-11-22',
         flight: {
           company: '',
           number: '',
@@ -103,6 +101,17 @@
     methods: {
       switchTab (tab) {
         this.activeTab = parseInt(tab)
+      },
+
+      updateDate (val, tab) {
+        switch (tab) {
+          case 'flight':
+            this.flight.date = val
+            break
+          case 'airport':
+            this.airport.date = val
+            break
+        }
       },
 
       getAirportsList: function (e) {
