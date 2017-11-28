@@ -5,6 +5,7 @@ import SearchForm from './searchform/SearchForm.vue'
 import SearchResultCard from './searchResultCard/SearchResultCard.vue'
 import SearchResultHeader from './searchResultHeader/SearchResultHeader.vue'
 import Datepicker from './datepicker/Datepicker.vue'
+import DatepickerAgenda from './datepickerAgenda/DatepickerAgenda.vue'
 
 const components = [
   { name: 'layout-header', template: LayoutHeader },
@@ -13,7 +14,8 @@ const components = [
   { name: 'search-form', template: SearchForm },
   { name: 'result-header', template: SearchResultHeader },
   { name: 'result-card', template: SearchResultCard },
-  { name: 'datepicker', template: Datepicker }
+  { name: 'datepicker', template: Datepicker },
+  { name: 'datepicker-agenda', template: DatepickerAgenda }
 ]
 
 export default components
