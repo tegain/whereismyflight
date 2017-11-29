@@ -10,9 +10,15 @@
     </div>
     <div class="app-Datepicker__content">
       <div class="app-Datepicker__week">
-      <span v-for="day in days" class="app-Datepicker__weekdays">
-        {{ day }}
-      </span>
+        <div v-for="day in days" class="app-Datepicker__weekday">
+          {{ day }}
+        </div>
+      </div>
+      <div class="app-Datepicker__days">
+        <div class="app-Datepicker__day" :style="{width: (month.getWeekStart() * 40) + 'px' }"></div>
+        <div class="app-Datepicker__day" v-for="day in month.getDays()">
+          {{ day.format('D') }}
+        </div>
       </div>
     </div>
   </div>
@@ -38,13 +44,15 @@
 <style lang="scss">
   .app-Datepicker {
 
+    $day-width: 40px;
+
     &__agenda {
       position: absolute;
       background: #fff;
       top: 100%;
       right: 0;
       z-index: 5;
-      width: 100%;
+      width: $day-width * 7;
 
       color: #000;
     }
@@ -54,16 +62,35 @@
     }
 
     &__content {
-      padding: 1rem;
+      // padding: 1rem;
     }
 
     &__week {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
     }
 
-    &__weekdays {
+    &__weekday {
+      width: $day-width;
+      text-align: center;
+    }
 
+    &__days {
+      display: flex;
+      flex-flow: row wrap;
+    }
+
+    &__day {
+      flex: 0 0 auto;
+      width: $day-width;
+      height: $day-width;
+      text-align: center;
+      line-height: $day-width;
+      cursor: pointer;
+
+      &:hover {
+        background: #f0f0f0;
+      }
     }
   }
 </style>
