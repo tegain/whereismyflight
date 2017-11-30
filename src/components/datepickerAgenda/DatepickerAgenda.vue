@@ -16,7 +16,7 @@
       </div>
       <div class="app-Datepicker__days">
         <div class="app-Datepicker__day" :style="{width: (month.getWeekStart() * 40) + 'px' }"></div>
-        <div class="app-Datepicker__day" v-for="day in month.getDays()">
+        <div class="app-Datepicker__day" v-for="day in month.getDays()" :class="{ 'selected': isSelected(day) }">
           {{ day.format('D') }}
         </div>
       </div>
@@ -26,18 +26,25 @@
 
 <script>
   import Month from '../../modules/Month'
+  import moment from 'moment'
 
   export default {
     data () {
       return {
-        now: new Date(),
+        now: moment(new Date()),
         date: '',
         month: new Month(this.currentMonth, this.currentYear),
         days: ['L', 'M', 'M', 'J', 'V', 'S', 'D']
       }
     },
 
-    props: ['currentMonth', 'currentYear']
+    props: ['currentMonth', 'currentYear'],
+
+    methods: {
+      isSelected (day) {
+        return day.format('D') === this.now.format('D')
+      }
+    }
   }
 </script>
 
