@@ -1,9 +1,9 @@
 <template>
   <div class="app-Datepicker">
     <input :id="id" :type="type" placeholder="yyyy/mm/dd" min="2017-11-15" max="2017-11-30" :value="date" @change="updateDate(date, tab)" v-if="mobile">
-    <span class="app-Datepicker__toggler" :data-value="date" @click="setDate" v-else>{{ date | moment("Do MMM YYYY") }}</span>
+    <span class="app-Datepicker__toggler" :data-value="date" v-else>{{ date | moment("Do MMM YYYY") }}</span>
     <input type="hidden" :class="`${id}--raw`" :value="date">
-    <datepicker-agenda :current-month="now | moment('M')" :current-year="now | moment('YYYY')"></datepicker-agenda>
+    <datepicker-agenda :current-month="now | moment('M')" :current-year="now | moment('YYYY')"  @selectDay="updateInputDate"></datepicker-agenda>
   </div>
 </template>
 
@@ -30,6 +30,10 @@
 
       setDate () {
         this.date = Date.now()
+      },
+
+      updateInputDate (val) {
+        this.date = val
       }
     }
   }

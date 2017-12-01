@@ -16,7 +16,9 @@
       </div>
       <div class="app-Datepicker__days">
         <div class="app-Datepicker__day" :style="{width: (month.getWeekStart() * 40) + 'px' }"></div>
-        <div class="app-Datepicker__day" v-for="day in month.getDays()" :class="{ 'selected': isSelected(day) }">
+        <div class="app-Datepicker__day" v-for="day in month.getDays()"
+             :class="{ 'selected': isSelected(day) }"
+              @click="selectDay(day)">
           {{ day.format('D') }}
         </div>
       </div>
@@ -43,6 +45,12 @@
     methods: {
       isSelected (day) {
         return day.format('D') === this.now.format('D')
+      },
+
+      selectDay (day) {
+        this.date = day
+        // console.log(this.date)
+        this.$emit('selectDay', this.date)
       }
     }
   }
@@ -95,7 +103,8 @@
       line-height: $day-width;
       cursor: pointer;
 
-      &:hover {
+      &:hover,
+      &.selected {
         background: #f0f0f0;
       }
     }
