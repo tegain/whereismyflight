@@ -1,8 +1,8 @@
 <template>
   <div class="app-Datepicker">
-    <input :id="id" :type="type" placeholder="yyyy/mm/dd" min="2017-11-15" max="2017-11-30" :value="date" @change="updateDate(date, tab)" v-if="mobile">
+    <input :id="id" :type="type" placeholder="yyyy/mm/dd" min="2017-11-15" max="2017-11-30" :value="date" @change="updateDate(tab)" v-if="mobile">
     <span class="app-Datepicker__toggler" :data-value="date" v-else>{{ date | moment("Do MMM YYYY") }}</span>
-    <input type="hidden" :class="`${id}--raw`" :value="date">
+    <input type="hidden" :class="`${id}--raw`" :value="date | moment('YYYY-MM-DD')">
     <datepicker-agenda :current-month="now | moment('M')" :current-year="now | moment('YYYY')"  @selectDay="updateInputDate"></datepicker-agenda>
   </div>
 </template>
@@ -24,16 +24,19 @@
     },
 
     methods: {
-      updateDate (val, tab) {
-        this.$emit('updateDatepicker', val, tab)
+      updateDate (tab) {
+        this.$emit('updateSearchTab', tab)
       },
 
       setDate () {
         this.date = Date.now()
       },
 
-      updateInputDate (val) {
+      updateInputDate (val, tab) {
         this.date = val
+        let rawDate = val.format('YYYY-MM-DD')
+        console.log(this)
+        this.$emit('updateDatepicker', {date: rawDate, tab: this.tab})
       }
     }
   }

@@ -40,26 +40,26 @@ const actions = {
     })
   },
 
-  SearchByAirport (context, data) {
+  SearchByRoute (context, data) {
     let APIToken = context.state.appSettings.apiToken
 
     return new Promise((resolve, reject) => {
-      let airportSearch = JSON.parse(data)
+      let routeSearch = JSON.parse(data)
 
-      if (airportSearch !== null) {
-        const airportInfos = {
-          type: airportSearch.type,
-          departure: airportSearch.departure,
-          destination: airportSearch.destination,
-          date: airportSearch.date
+      if (routeSearch !== null) {
+        const routeInfos = {
+          type: routeSearch.type,
+          departure: routeSearch.departure,
+          destination: routeSearch.destination,
+          date: routeSearch.date
         }
 
-        API.searchByAirport(airportInfos.departure, airportInfos.destination, airportInfos.date, APIToken)
+        API.searchByRoute(routeInfos.departure, routeInfos.destination, routeInfos.date, APIToken)
           .then((response) => {
             let routesList = response.data.FlightStatusResource.Flights
-            airportInfos.datas = routesList
+            routeInfos.datas = routesList
             resolve(routesList)
-            context.commit('SEARCH_BY_AIRPORT', airportInfos)
+            context.commit('SEARCH_BY_AIRPORT', routeInfos)
           })
           .catch((error) => {
             reject(new Error(`Problem with API: ${error}`))

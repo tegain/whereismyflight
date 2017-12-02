@@ -49,7 +49,6 @@
 
       selectDay (day) {
         this.date = day
-        // console.log(this.date)
         this.$emit('selectDay', this.date)
       }
     }

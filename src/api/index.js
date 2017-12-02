@@ -35,7 +35,7 @@ export default {
     return Axios.get(fetchUrl)
   },
 
-  searchByAirport (departure, destination, date, token) {
+  searchByRoute (departure, destination, date, token) {
     let fetchUrl = `${APISettings.lh.baseUrl}/operations/flightstatus/route/${departure}/${destination}/${date}`
     let params = {
       'Accept': 'application/json',

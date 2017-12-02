@@ -40,26 +40,26 @@
       </form>
     </div>
 
-      <div class="app-Search__content" v-else key="airport">
-      <div class="app-Search__label" v-if="isMobile">Recherche par aéroport</div>
+      <div class="app-Search__content" v-else key="route">
+      <div class="app-Search__label" v-if="isMobile">Recherche par trajet</div>
 
-      <form action="#" class="app-Search__form app-Search__form--airport" data-type="airport" @submit.prevent="submitForm">
+      <form action="#" class="app-Search__form app-Search__form--route" data-type="route" @submit.prevent="submitForm">
         <div class="app-Search__row">
-          <label for="app-Search__airportDeparture">Aéroport de départ</label>
-          <input id="app-Search__airportDeparture" type="text" placeholder="ex. : CDG ou Paris" v-model="airport.departure" @blur="inputCompleteFill">
-          <span>{{ airport.departure }}</span>
+          <label for="app-Search__routeDeparture">Aéroport de départ</label>
+          <input id="app-Search__routeDeparture" type="text" placeholder="ex. : CDG ou Paris" v-model="route.departure" @blur="inputCompleteFill">
+          <span>{{ route.departure }}</span>
         </div>
 
         <div class="app-Search__row">
-          <label for="app-Search__airportArrival">Aéroport d'arrivée</label>
-          <input id="app-Search__airportArrival" type="text" placeholder="ex. : LAX ou Los Angeles" v-model="airport.destination" @blur="inputCompleteFill">
-          <span>{{ airport.destination }}</span>
+          <label for="app-Search__routeArrival">Aéroport d'arrivée</label>
+          <input id="app-Search__routeArrival" type="text" placeholder="ex. : LAX ou Los Angeles" v-model="route.destination" @blur="inputCompleteFill">
+          <span>{{ route.destination }}</span>
         </div>
 
         <div class="app-Search__row">
-          <label for="app-Search__airportDate">Date</label>
-          <!--<input id="app-Search__airportDate" :type="isMobile ? 'date': 'text'" placeholder="yyyy/mm/dd" v-model="airport.date" @blur="inputCompleteFill">-->
-          <datepicker id="app-Search__airportDate" tab="airport" :mobile="isMobile" :type="isMobile ? 'date': 'text'" @updateDatepicker="updateDate"></datepicker>
+          <label for="app-Search__routeDate">Date</label>
+          <!--<input id="app-Search__routeDate" :type="isMobile ? 'date': 'text'" placeholder="yyyy/mm/dd" v-model="route.date" @blur="inputCompleteFill">-->
+          <datepicker id="app-Search__routeDate" tab="route" :mobile="isMobile" :type="isMobile ? 'date': 'text'" @updateDatepicker="updateDate"></datepicker>
         </div>
 
         <div class="app-Search__row">
@@ -84,7 +84,7 @@
           number: '',
           date: ''
         },
-        airport: {
+        route: {
           departure: '',
           destination: '',
           date: ''
@@ -103,13 +103,16 @@
         this.activeTab = parseInt(tab)
       },
 
-      updateDate (val, tab) {
+      updateDate (val) {
+        let tab = val.tab
+        console.log(val)
+
         switch (tab) {
           case 'flight':
-            this.flight.date = val
+            this.flight.date = val.date
             break
-          case 'airport':
-            this.airport.date = val
+          case 'route':
+            this.route.date = val.date
             break
         }
       },
@@ -153,12 +156,12 @@
         } else {
           let data = {
             type: searchType,
-            departure: this.airport.departure,
-            destination: this.airport.destination,
-            date: this.airport.date
+            departure: this.route.departure,
+            destination: this.route.destination,
+            date: this.route.date
           }
 
-          this.searchByAirport(data)
+          this.searchByRoute(data)
         }
       },
 
@@ -179,16 +182,16 @@
           })
       },
 
-      searchByAirport (data) {
-        let airportData = JSON.stringify(data)
+      searchByRoute (data) {
+        let routeData = JSON.stringify(data)
 
-        this.$store.dispatch('SearchByAirport', airportData)
+        this.$store.dispatch('SearchByRoute', routeData)
           .then((response) => {
             console.log(response)
             let routeParams = {
               departure: response.Flight[0].Departure.AirportCode,
               destination: response.Flight[0].Arrival.AirportCode,
-              date: airportData.date
+              date: routeData.date
             }
 
             this.$router.push({ name: 'Results', params: { a: routeParams.departure, b: routeParams.destination } })
